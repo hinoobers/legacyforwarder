@@ -1,3 +1,5 @@
 main: org.hinoob.legacyforwarder.LegacyForwarder
 name: legacyforwarder
 version: 1
+depend:
+  - packetevents
