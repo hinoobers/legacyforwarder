@@ -4,12 +4,16 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.netty.buffer.UnpooledByteBufAllocationHelper;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.player.User;
+import com.github.retrooper.packetevents.protocol.player.UserProfile;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.handshaking.client.WrapperHandshakingClientHandshake;
 import com.github.retrooper.packetevents.wrapper.login.client.WrapperLoginClientLoginStart;
 import com.github.retrooper.packetevents.wrapper.login.client.WrapperLoginClientPluginResponse;
+import com.github.retrooper.packetevents.wrapper.login.server.WrapperLoginServerLoginSuccess;
 import com.github.retrooper.packetevents.wrapper.login.server.WrapperLoginServerPluginRequest;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import com.google.common.net.InetAddresses;
@@ -39,10 +43,11 @@ public class PacketListener extends PacketListenerAbstract {
     }
 
     private final Map<Integer, String> idMap = new HashMap<>();
+    public static final Map<User, DataResponse> responseMap = new HashMap<>();
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if(event.getPacketType() == PacketType.Login.Client.LOGIN_START) {
+        if (event.getPacketType() == PacketType.Login.Client.LOGIN_START) {
             WrapperLoginClientLoginStart w = new WrapperLoginClientLoginStart(event);
 
             ByteBuf buf = Unpooled.buffer();
@@ -52,15 +57,15 @@ public class PacketListener extends PacketListenerAbstract {
             buf.readBytes(data);
 
             int randomID = new Random().nextInt(32767);
-            while(idMap.containsKey(randomID)) {
+            while (idMap.containsKey(randomID)) {
                 randomID = new Random().nextInt(32767);
             }
             idMap.put(randomID, w.getUsername());
             WrapperLoginServerPluginRequest wrapper = new WrapperLoginServerPluginRequest(randomID, "velocity:player_info", data);
             event.getUser().sendPacket(wrapper);
-        } else if(event.getPacketType() == PacketType.Login.Client.LOGIN_PLUGIN_RESPONSE) {
+        } else if (event.getPacketType() == PacketType.Login.Client.LOGIN_PLUGIN_RESPONSE) {
             WrapperLoginClientPluginResponse wrapper = new WrapperLoginClientPluginResponse(event);
-            if(idMap.containsKey(wrapper.getMessageId())) {
+            if (idMap.containsKey(wrapper.getMessageId())) {
                 ByteBuf buf = Unpooled.copiedBuffer(wrapper.getData());
 
                 byte[] signature = new byte[32];
@@ -75,7 +80,7 @@ public class PacketListener extends PacketListenerAbstract {
                     mac.init(new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
                     byte[] mySignature = mac.doFinal(data);
                     boolean signatureEqual = MessageDigest.isEqual(signature, mySignature);
-                    if(!signatureEqual) {
+                    if (!signatureEqual) {
                         event.getUser().closeConnection();
                         return;
                     }
@@ -89,7 +94,23 @@ public class PacketListener extends PacketListenerAbstract {
                 UUID uuid = reader.readUUID();
                 String username = reader.readString();
 
+                responseMap.put(event.getUser(), new DataResponse(username, uuid, address));
+            }
+        }
+    }
 
+    @Override
+    public void onPacketSend(PacketSendEvent event) {
+        if(event.getPacketType() == PacketType.Login.Server.LOGIN_SUCCESS) {
+            if(true) {
+                return;
+            }
+            WrapperLoginServerLoginSuccess wrapper = new WrapperLoginServerLoginSuccess(event);
+            if(responseMap.containsKey(event.getUser())) {
+                DataResponse response = responseMap.get(event.getUser());
+
+                wrapper.setUserProfile(new UserProfile(response.getUUID(), response.getUsername()));
+                event.markForReEncode(true);
             }
         }
     }
