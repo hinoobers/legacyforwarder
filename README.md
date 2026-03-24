@@ -9,7 +9,7 @@ Using a modified Velocity, it tricks it having the necessary packets for this, b
 Backend-server-side, it uses a plugin, it also tricks the existence of necessary packets, and pushes its own listener in front of everyone, to ensure compability with ViaVersion.
 
 # How to use it?
-From the releases tab, grab the Velocity jar *(velocity was built with the latest commit being `e0db25664fc82eabd9fde5aac22a2311a9765975`)*, replace your existing velocity with the jar, then add the plugin to your backend server, configure the secret key in config.yml and restart
+From the releases tab, grab the Velocity jar *(velocity was built with the latest commit being `e0db25664fc82eabd9fde5aac22a2311a9765975`)*, replace your existing velocity with the jar, then add the plugin to your backend server, configure the secret key in config.yml and restart your velocity & backend server. To test it's working: Log in, and run /whatismyip, and ensure it does not show your local address.
 
 # Can i use this in production?
 I wouldn't recommend so, it has its flaws, the code can be improved, i just wanted to prove it can be done.
