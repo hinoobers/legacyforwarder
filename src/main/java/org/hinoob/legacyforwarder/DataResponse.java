@@ -1,31 +1,31 @@
 package org.hinoob.legacyforwarder;
 
+import com.github.retrooper.packetevents.protocol.player.TextureProperty;
+import com.github.retrooper.packetevents.protocol.player.UserProfile;
+import com.github.retrooper.packetevents.wrapper.login.client.WrapperLoginClientLoginStart;
 import com.google.common.net.InetAddresses;
 
 import java.net.InetAddress;
+import java.util.List;
 import java.util.UUID;
 
 public class DataResponse {
 
-    private final String username;
-    private final UUID uuid;
-    private final InetAddress address;
+    private final UserProfile profile;
+    private final String address;
+    public boolean identSpoofed = false;
+    public WrapperLoginClientLoginStart loginStart;
 
-    public DataResponse(String username, UUID uuid, InetAddress address) {
-        this.username = username;
-        this.uuid = uuid;
+    public DataResponse(String username, UUID uuid, List<TextureProperty> properties, String address) {
+        this.profile = new UserProfile(uuid, username, properties);
         this.address = address;
     }
 
-    public String getUsername() {
-        return username;
+    public UserProfile getProfile() {
+        return profile;
     }
 
-    public UUID getUUID() {
-        return uuid;
-    }
-
-    public InetAddress getAddress() {
+    public String getAddress() {
         return address;
     }
 }

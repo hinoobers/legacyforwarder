@@ -20,13 +20,13 @@
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
         <repository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
         </repository>
-        <repository>
-            <id>grimac-repo</id>
-            <url>https://repo.grim.ac/snapshots</url>
-        </repository>
+<!--        <repository>-->
+<!--            <id>grimac-repo</id>-->
+<!--            <url>https://repo.grim.ac/snapshots</url>-->
+<!--        </repository>-->
     </repositories>
 
     <dependencies>
@@ -39,9 +39,13 @@
         <dependency>
             <groupId>com.github.retrooper</groupId>
             <artifactId>packetevents-spigot</artifactId>
-            <version>2.11.2+675bc5c-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>2.11.2</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.retrooper</groupId>-->
+<!--            <artifactId>packetevents-spigot</artifactId>-->
+<!--            <version>2.11.2+675bc5c-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
@@ -49,5 +53,55 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete>
+                                    <fileset dir="${project.build.directory}" includes="*.jar"/>
+                                </delete>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>org.hinoob.legacyforwarder.packetevents.com</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>org.hinoob.legacyforwarder.packetevents.io</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
