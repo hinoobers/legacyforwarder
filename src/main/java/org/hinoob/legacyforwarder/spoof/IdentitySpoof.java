@@ -60,7 +60,7 @@ public class IdentitySpoof {
     public static void spoof(User user, DataResponse response, Object packetHandler, Runnable runnable){
         for(Field field : packetHandler.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            if(field.getType().toString().contains("v1_8_R3.PacketListener")) {
+            if(field.getType().toString().contains(".PacketListener")) {
                 try {
                     Object list = field.get(packetHandler);
 
