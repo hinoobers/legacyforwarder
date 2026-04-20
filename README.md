@@ -11,8 +11,13 @@ Backend-server-side, it uses a plugin, it also tricks the existence of necessary
 # How to use it?
 From the releases tab, grab the Velocity jar *(velocity was built with the latest commit being `e0db25664fc82eabd9fde5aac22a2311a9765975`)*, replace your existing velocity with the jar, then add the plugin to your legacy backend (1.8) server, configure the secret key in config.yml and restart your velocity & backend server. Make sure forwarding mode in velocity settings is set to modern. To test it's working: Log in, and run /whatismyip, and ensure it does not show your local address.
 
-Steps to get it working: (basic steps, to see it in action)
-* Setup 1.8 backend server (ensure on backend server online mode is set to false in server.properties)
+# Steps to get it working: (basic steps, to see it in action)
+*Prerequisites*:
+* Velocity-capable server, with a open port so you can connect to it (not necessary if you're testing it on LAN)
+* 1.8 server, recommended to use **Java 8** (for more info read the 1st step below), that is capable of loading Spigot plugins
+
+*Steps*:
+* Setup 1.8 backend server (ensure on backend server online mode is set to false in server.properties, since this is 1.8, and it is quite old, it is recommended to use **Java 8** otherwise you'll get `unable to access address buffer` errors, however there is a workaround to get 1.8 to work with newer java versions, in server.properties set `use-native-transport` to false)
 * Install legacyforwarder plugin from releases tab to backend server
 * Setup velocity server (grab the velocity jar from releases)
 * Switch forwarding protocol to `modern` in velocity settings
