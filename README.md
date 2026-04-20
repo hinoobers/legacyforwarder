@@ -9,7 +9,15 @@ Using a modified Velocity, it tricks it having the necessary packets for this, b
 Backend-server-side, it uses a plugin, it also tricks the existence of necessary packets, and pushes its own listener in front of everyone, to ensure compability with ViaVersion.
 
 # How to use it?
-From the releases tab, grab the Velocity jar *(velocity was built with the latest commit being `e0db25664fc82eabd9fde5aac22a2311a9765975`)*, replace your existing velocity with the jar, then add the plugin to your backend server, configure the secret key in config.yml and restart your velocity & backend server. To test it's working: Log in, and run /whatismyip, and ensure it does not show your local address.
+From the releases tab, grab the Velocity jar *(velocity was built with the latest commit being `e0db25664fc82eabd9fde5aac22a2311a9765975`)*, replace your existing velocity with the jar, then add the plugin to your legacy backend (1.8) server, configure the secret key in config.yml and restart your velocity & backend server. Make sure forwarding mode in velocity settings is set to modern. To test it's working: Log in, and run /whatismyip, and ensure it does not show your local address.
+
+Steps to get it working: (basic steps, to see it in action)
+* Setup 1.8 backend server (ensure on backend server online mode is set to false in server.properties)
+* Install legacyforwarder plugin from releases tab to backend server
+* Setup velocity server (grab the velocity jar from releases)
+* Switch forwarding protocol to `modern` in velocity settings
+* Restart your server or if you already have forwarding.secret in velocity server directory, copy the key to plugin's config
+* Restart both servers, and connect to your proxy, with 1.8, or any version if you have ViaVersion installed
 
 # Can i use this in production?
 I wouldn't recommend so, it has its flaws, the code can be improved, i just wanted to prove it can be done.
