@@ -20,6 +20,7 @@ From the releases tab, grab the Velocity jar *(velocity was built with the lates
 * Setup 1.8 backend server (ensure on backend server `online-mode` is set to false in server.properties, since this is 1.8, and it is quite old, it is recommended to use **Java 8** otherwise you'll get `unable to access address buffer` errors when connecting, however there is a workaround to get it to work with newer java versions, in server.properties set `use-native-transport` to false)
 * Install legacyforwarder plugin from releases tab to backend server
 * Setup velocity server (grab the velocity jar from releases)
+* Add your backend server to `velocity.toml`, eg `lobby = "172.18.0.1:4706"`
 * Switch `player-info-forwarding-mode` to `modern` in `velocity.toml`
 * Restart your velocity server or if you already have forwarding.secret in velocity server directory, copy the key from forwarding.secret to plugin's config (plugins/legacyforwarder/config.yml)
 * Restart both servers, and connect to your proxy with 1.8.9, or any newer version if you have ViaVersion installed on your backend server as a plugin
