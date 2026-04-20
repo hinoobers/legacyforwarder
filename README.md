@@ -16,7 +16,7 @@ Steps to get it working: (basic steps, to see it in action)
 * Install legacyforwarder plugin from releases tab to backend server
 * Setup velocity server (grab the velocity jar from releases)
 * Switch forwarding protocol to `modern` in velocity settings
-* Restart your server or if you already have forwarding.secret in velocity server directory, copy the key to plugin's config
+* Restart your velocity server or if you already have forwarding.secret in velocity server directory, copy the key to plugin's config
 * Restart both servers, and connect to your proxy, with 1.8, or any version if you have ViaVersion installed
 
 # Can i use this in production?
