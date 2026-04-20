@@ -14,15 +14,15 @@ From the releases tab, grab the Velocity jar *(velocity was built with the lates
 # Steps to get it working: (basic steps, to see it in action)
 *Prerequisites*:
 * Velocity-capable server, with a open port so you can connect to it (not necessary if you're testing it on LAN)
-* 1.8 server, recommended to use **Java 8** (for more info read the 1st step below), that is capable of loading Spigot plugins
+* 1.8.8 server, recommended to use **Java 8** (for more info read the 1st step below), that is capable of loading Spigot plugins
 
 *Steps*:
-* Setup 1.8 backend server (ensure on backend server online mode is set to false in server.properties, since this is 1.8, and it is quite old, it is recommended to use **Java 8** otherwise you'll get `unable to access address buffer` errors, however there is a workaround to get 1.8 to work with newer java versions, in server.properties set `use-native-transport` to false)
+* Setup 1.8 backend server (ensure on backend server `online-mode` is set to false in server.properties, since this is 1.8, and it is quite old, it is recommended to use **Java 8** otherwise you'll get `unable to access address buffer` errors when connecting, however there is a workaround to get it to work with newer java versions, in server.properties set `use-native-transport` to false)
 * Install legacyforwarder plugin from releases tab to backend server
 * Setup velocity server (grab the velocity jar from releases)
-* Switch forwarding protocol to `modern` in velocity settings
-* Restart your velocity server or if you already have forwarding.secret in velocity server directory, copy the key to plugin's config
-* Restart both servers, and connect to your proxy, with 1.8, or any version if you have ViaVersion installed
+* Switch `player-info-forwarding-mode` to `modern` in `velocity.toml`
+* Restart your velocity server or if you already have forwarding.secret in velocity server directory, copy the key from forwarding.secret to plugin's config (plugins/legacyforwarder/config.yml)
+* Restart both servers, and connect to your proxy with 1.8.9, or any newer version if you have ViaVersion installed on your backend server as a plugin
 
 # Can i use this in production?
 I wouldn't recommend so, it has its flaws, the code can be improved, i just wanted to prove it can be done.
