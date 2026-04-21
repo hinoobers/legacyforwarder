@@ -15,6 +15,7 @@ From the releases tab, grab the Velocity jar *(velocity was built with the lates
 *Prerequisites*:
 * Velocity-capable server, with a open port so you can connect to it (not necessary if you're testing it on LAN)
 * 1.8.8 server, recommended to use **Java 8** (for more info read the 1st step below), that is capable of loading Spigot plugins
+* Note: Testing on LAN, you might see `Server sees your ip as: localhost, or a local ip` when running `/whatismyip`, this is not a bug, the velocity just forwards the IP what IT receives to backend, if you are using a reverse proxy, check out <a href="https://www.haproxy.org/">haproxy</a>
 
 *Steps*:
 * Setup 1.8 backend server (ensure on backend server `online-mode` is set to false in server.properties, since this is 1.8, and it is quite old, it is recommended to use **Java 8** otherwise you'll get `unable to access address buffer` errors when connecting, however there is a workaround to get it to work with newer java versions, in server.properties set `use-native-transport` to false)
